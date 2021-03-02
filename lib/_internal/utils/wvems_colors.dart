@@ -6,19 +6,26 @@ import 'package:flutter/material.dart';
 // accent color will be chosen to maintain a 7+ to 1 contrast with near
 // black (#0F0F0F)
 
-Map<int, Color> _wvemsMap = {
-  2019: const Color.fromRGBO(240, 240, 240, 1.0), //#f0f0f0
-  2020: const Color.fromRGBO(180, 167, 214, 1.0), //#b4a7d6
-  2021: const Color.fromRGBO(255, 242, 204, 1.0), //#fff2cc
+const Map<int, Color> wvemsMap = {
+  2021: Color.fromRGBO(255, 242, 204, 1.0), //#fff2cc
+  2020: Color.fromRGBO(180, 167, 214, 1.0), //#b4a7d6
+  2019: Color.fromRGBO(240, 240, 240, 1.0), //#f0f0f0
 };
+
+//WVEMS Logo light blue: 0, 160, 214
+const wvemsLightBlue = Color.fromRGBO(0, 160, 214, 1.0);
+//WVEMS Logo dark blue: 6, 74, 137
+const wvemsDarkBlue = Color.fromRGBO(6, 74, 137, 1.0);
+//WVEMS orange: 255, 103, 0
+const wvemsOrange = Color.fromRGBO(255, 103, 0, 1.0);
 
 //return the color associated with a year
 Color wvemsColor(int _year) =>
-    _wvemsMap.containsKey(2019) ? _wvemsMap[_year] : null;
+    wvemsMap.containsKey(_year) ? wvemsMap[_year] : Colors.white;
 
 //return the text string associated with a year
 String wvemsText(int _year) => 'Protocols $_year';
 
 //return the year associated with a color (maybe don't need this?)
-int wvemsYear(Color _color) => _wvemsMap.keys
-    .firstWhere((i) => _wvemsMap[i] == _color, orElse: () => null);
+int wvemsYear(Color _color) => wvemsMap.keys
+    .firstWhere((i) => wvemsMap[i] == _color, orElse: () => 1900);

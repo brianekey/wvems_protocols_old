@@ -22,6 +22,10 @@ class ThemeService extends GetxService {
   ThemeMode get themeMode => _themeMode;
   set themeMode(value) => _themeMode = value;
 
+  final themeYear = 2019.obs;
+//  int get themeYear => _themeYear ?? _defaultYear;
+//  set themeYear(int value) => _themeYear = value;
+
   Future<void> setThemeMode(ThemeMode obj) async {
     // Change theme, then update ThemeMode notifiers
     Get.changeThemeMode(obj);
@@ -29,7 +33,16 @@ class ThemeService extends GetxService {
 
     // Save data for later retrieval
     prefs = await SharedPreferences.getInstance();
-    await prefs.setString('theme', themeMode.toString().split('.')[1]);
+    await prefs.setString('theme', _themeMode.toString().split('.')[1]);
+  }
+
+  Future<void> setThemeYear(int _year) async {
+    // Change themeYear, and update ThemeYear notifiers
+    themeYear.value = _year;
+
+    // Save data for later retrieval
+    prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('year', _year);
   }
 
   Future<void> getThemeModeFromPreferences() async {
@@ -41,6 +54,7 @@ class ThemeService extends GetxService {
     } catch (e) {
       _themeMode = ThemeMode.system;
     }
+    themeYear.value = prefs.getInt('year') ?? 2019;
   }
 
   AppTheme getAppThemeFromBrightness(Brightness b) {

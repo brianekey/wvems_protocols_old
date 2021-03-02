@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:wvems_protocols/_internal/utils/wvems_colors.dart';
 
 class _AppColors {
-  static const Color primary = Color(0xFF689E80);
-  static const Color primaryDark = Color(0xFF32494e);
-  static const Color accent = Color(0xFFE1994C);
-  static const Color accentDark = Color(0xFFd1893C);
-  static const Color redDarkMode = Color(0xFF984F46);
+  static const Color primary = wvemsDarkBlue;
+  static const Color primaryDark = wvemsLightBlue;
+  static const Color accent = wvemsDarkBlue;
+  static const Color accentDark = wvemsLightBlue;
   static const Color greySurface = Color(0xFFE4E4E3);
   static const Color grey = Color(0xFF636463);
   static const Color blackSurface = Color(0xff050505);
   static const Color blackBackground = Color(0xff181818);
-  static const Color textDark = Colors.white;
-  static const Color textLight = Color(0xFFf7f7f7);
+  static const Color textDark = Color(0xFF0f0f0f);
+  static const Color textLight = Color(0xFFf0f0f0);
 }
 
 TextTheme _buildTextTheme() {
@@ -30,7 +30,7 @@ TextTheme _buildTextTheme() {
     caption: _style(12.0, FontWeight.normal),
     overline: _style(16.0, FontWeight.normal),
     // );
-  ).apply(fontFamily: 'Lato');
+  ).apply(fontFamily: 'Barlow');
 }
 
 TextStyle _style(double s, FontWeight w) =>
@@ -74,7 +74,7 @@ class AppTheme {
           ..secondary = _AppColors.accentDark
           ..secondaryVariant = _AppColors.accent
           ..grey = _AppColors.grey
-          ..error = _AppColors.redDarkMode
+          ..error = Colors.red.shade300
           ..focus = _AppColors.grey;
     }
     return AppTheme.fromType(defaultTheme);
@@ -112,7 +112,8 @@ class AppTheme {
           onError: txt,
           onPrimary: accentTxt,
           onSecondary: accentTxt,
-          error: error ?? Colors.red.shade400),
+          error: error,
+      ),
     );
     return t.copyWith(
         typography: Typography.material2018(),

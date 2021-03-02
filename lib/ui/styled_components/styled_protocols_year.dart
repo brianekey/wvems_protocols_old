@@ -1,29 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wvems_protocols/_internal/utils/utils.dart';
+import 'package:wvems_protocols/controllers/controllers.dart';
 
 class StyledProtocolsYear extends StatelessWidget {
-  //todo: extract into theme / jcontroller
-  final String _yearText = wvemsText(2020);
-  final Color _yearColor = wvemsColor(2020);
+  //XXX(brianekey): I think this is right?? But gives a warning about immutable
+  StyledProtocolsYear({this.size=56.0, int optionalYear}) {
+    _yearText = wvemsText(optionalYear ?? ThemeService.to.themeYear.value);
+    _yearColor = wvemsColor(optionalYear ?? ThemeService.to.themeYear.value);
+  }
+  double size;
+  String _yearText;
+  Color _yearColor;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 4.0,
       child: Container(
-        //padding: const EdgeInsets.fromLTRB(0.0,0.0,0.0,2.0),
-        height: 56.0,
+        height: size,
         alignment: Alignment.center,
         decoration: BoxDecoration(
             color: _yearColor,
-            border: Border.all(width: 3.0, color: Colors.grey)),
+            border: Border.all(width: 2.0, color: Colors.grey)),
         child: Text(
           '$_yearText',
           textAlign: TextAlign.center,
           style: GoogleFonts.barlow(
             color: Colors.black,
-            fontSize: 36.0,
+            fontSize: 6+size/2,
             fontWeight: FontWeight.bold,
           ),
         ),

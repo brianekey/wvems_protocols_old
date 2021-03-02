@@ -7,17 +7,11 @@ import 'package:wvems_protocols/ui/strings.dart';
 import 'package:wvems_protocols/ui/styled_components/styled_components.dart';
 
 class StyledNavDrawer extends StatelessWidget {
-  // TODO(brianekey): The _yearColor and _yearText should come from
-  // a higher level state somewhere that defines which year is currently
-  // being displayed. The color should be linked to the year, just like
-  // the color of the main ToC button is linked to the color of the year.
-  // _newMessages should also be set and passed in from the controller.
+  // TODO(brianekey): The _newMessages should come from a higher level state
+  // somewhere that indicates if there are messages to display.
   // And _displayWompWomp() is just a placeholder so the menus work.
   // <kludge>
-  final bool _newMessages = true;
-
-  //todo: extract into theme / jcontroller
-  final Color _yearColor = wvemsColor(2020);
+  final bool _newMessages = true; //</kludge>
 
   @override
   Widget build(BuildContext context) {
@@ -69,11 +63,11 @@ class StyledNavDrawer extends StatelessWidget {
         leading: Stack(
           alignment: AlignmentDirectional.topEnd,
           children: <Widget>[
-            const Icon(Icons.message, size: 30.0),
+            const Padding(padding: EdgeInsets.fromLTRB(0,4.0,4.0,0), child: Icon(Icons.message, size: 30.0)),
             Icon(
               Icons.circle,
-              size: 12.0,
-              color: _newMessages ? _yearColor : Colors.transparent,
+              size: 16.0,
+              color: _newMessages ? wvemsOrange : Colors.transparent,
             ),
           ],
         ),
@@ -87,10 +81,10 @@ class StyledNavDrawer extends StatelessWidget {
         onTap: () => _displayWompWomp(context),
       ),
       ListTile(
-        leading: const Icon(Icons.description, size: 30.0),
+        leading: const Padding(padding: EdgeInsets.fromLTRB(0,4.0,0,0), child: Icon(Icons.description, size: 30.0)),
         title: Text(S.NAV_VERSION),
         subtitle: Text(S.NAV_MANAGE_DISPLAY_YEAR),
-        onTap: () => _displayWompWomp(context),
+        onTap: () => _displayVersionDialog(context),
       ),
     ];
   } //_mainItems()
@@ -135,19 +129,51 @@ class StyledNavDrawer extends StatelessWidget {
   List<Widget> _systemItems(BuildContext context) {
     return <Widget>[
       ListTile(
-        leading: const Icon(Icons.settings, size: 30.0),
+        leading: const Padding(padding: EdgeInsets.fromLTRB(0,4.0,0,0), child: Icon(Icons.settings, size: 30.0)),
         title: Text(S.NAV_SETTINGS),
         subtitle: Text(S.NAV_DISPLAY_MODE),
         onTap: () => _displaySettingsDialog(context),
       ),
       ListTile(
-        leading: const Icon(Icons.info, size: 30.0),
+        leading: const Padding(padding: EdgeInsets.fromLTRB(0,4.0,0,0), child: Icon(Icons.info, size: 30.0)),
         title: Text(S.NAV_ABOUT),
         subtitle: Text('Release ${S.APP_RELEASE}'),
         onTap: () => _displayAboutDialog(context),
       ),
     ];
   } //_systemItems()
+
+  // pop-op dialog for "Version"
+  void _displayVersionDialog(BuildContext context) {
+    final ThemeService themeService = Get.find();
+    Get.back();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          title: Text(S.NAV_VERSION_SELECT),
+          children: <Widget>[
+            for (int _year in wvemsMap.keys)
+              RadioListTile(
+                title: StyledProtocolsYear(size:30, optionalYear:_year),
+                value: _year,
+                groupValue: themeService.themeYear.value,
+                onChanged: (int _year) {
+                  Get.back();
+                  themeService.setThemeYear(_year);
+                },
+              ),
+            Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
+              TextButton(
+                child: Text(S.NAV_CANCEL),
+                onPressed: () => Get.back(),
+              ),
+            ]),
+          ],
+        );
+      }, // builder
+    ); // showDialog()
+  } // _displaySettingsDialog
 
   // pop-op dialog for "Settings"
   void _displaySettingsDialog(BuildContext context) {
@@ -163,27 +189,35 @@ class StyledNavDrawer extends StatelessWidget {
               title: Text(S.NAV_MODE_LIGHT),
               value: ThemeMode.light,
               groupValue: themeService.themeMode,
-              onChanged: (ThemeMode value) =>
-                  themeService.setThemeMode(ThemeMode.light),
+              onChanged: (ThemeMode value) {
+                Get.back();
+                themeService.setThemeMode(value);
+              },
             ),
             RadioListTile(
               title: Text(S.NAV_MODE_DARK),
               value: ThemeMode.dark,
               groupValue: themeService.themeMode,
-              onChanged: (ThemeMode value) =>
-                  themeService.setThemeMode(ThemeMode.dark),
+              onChanged: (ThemeMode value) {
+                Get.back();
+                themeService.setThemeMode(value);
+              },
             ),
             RadioListTile(
               title: Text(S.NAV_MODE_SYSTEM),
               value: ThemeMode.system,
               groupValue: themeService.themeMode,
-              onChanged: (ThemeMode value) =>
-                  themeService.setThemeMode(ThemeMode.system),
+              onChanged: (ThemeMode value) {
+                Get.back();
+                themeService.setThemeMode(value);
+              },
             ),
-            FlatButton(
-              child: Text(S.NAV_OK),
-              onPressed: () => Get.back(),
-            ),
+            Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
+              TextButton(
+                child: Text(S.NAV_CANCEL),
+                onPressed: () => Get.back(),
+              ),
+            ]),
           ],
         );
       }, // builder
@@ -191,6 +225,7 @@ class StyledNavDrawer extends StatelessWidget {
   } // _displaySettingsDialog
 
   // pop-op dialog for "About"
+  // TODO(brianekey): put these strings in string file
   void _displayAboutDialog(BuildContext context) {
     Get.back();
     showDialog(

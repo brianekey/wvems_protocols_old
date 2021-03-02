@@ -12,18 +12,20 @@ class _Strings {
   String NAV_MESSAGES = 'Messages';
   String NAV_NOTIFICATIONS = 'Notifications from WVEMS';
   String NAV_VERSION = 'Version';
+  String NAV_VERSION_SELECT = 'Select Year to Display';
   String NAV_MANAGE_DISPLAY_YEAR = 'Manage display year';
   String NAV_SHARE = 'Share';
   String NAV_PRINT = 'Print';
   String NAV_DOWNLOAD = 'Download';
   String NAV_SETTINGS = 'Settings';
-  String NAV_DISPLAY_MODE = 'Display Mode';
+  String NAV_DISPLAY_MODE = 'Display Theme';
   String NAV_ABOUT = 'About';
-  String NAV_MODE_SELECT = 'Select Display Mode';
-  String NAV_MODE_LIGHT = 'Light Mode';
-  String NAV_MODE_DARK = 'Dark Mode';
-  String NAV_MODE_SYSTEM = 'Match System';
+  String NAV_MODE_SELECT = 'Select Display Theme';
+  String NAV_MODE_LIGHT = 'Light';
+  String NAV_MODE_DARK = 'Dark';
+  String NAV_MODE_SYSTEM = 'System Default';
   String NAV_OK = 'OK';
+  String NAV_CANCEL = '   Cancel   ';
 
   String SEARCH_BAR_HINT = 'Search Protocols';
 
